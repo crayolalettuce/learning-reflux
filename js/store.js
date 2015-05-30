@@ -1,16 +1,28 @@
-(function(Reflux, TodoActions, global) {
+(function(Reflux, Actions, global) {
     'use strict';
+
+
 
     global.todoListStore = Reflux.createStore({
 
-        listenables: [TodoActions],
-        onCostChange: function(){
-            alert('test1');
+        init: function(){
+            this.listenTo(Actions.costChange, this.output);
         },
         output: function(){
-            this.trigger();
-        }, 
+            this.trigger('stuff');
+            alert('donkyshow');
+        }
 
-    });
+          });
 
-})(window.Reflux, window.TodoActions, window);
+
+    // global.todoListStore = Reflux.createStore({
+
+    //     listenables: [TodoActions],
+    //     onCostChange: function(){
+    //         alert('test1');
+    //     }
+
+    // });
+
+})(window.Reflux, window.Actions, window);

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-(function(React, ReactRouter, Reflux, TodoActions, todoListStore, global) {
+(function(React, ReactRouter, Reflux, Actions, todoListStore, global) {
 
         mountNode = document.getElementById("todoapp");
 
@@ -30,7 +30,7 @@ var CalcTable = React.createClass({
 var CalcRow = React.createClass({
   handleChange: function(){
         // links to action in store.js
-        TodoActions.costChange();
+        Actions.costChange();
   },
   render: function() {
         return(
@@ -72,24 +72,20 @@ var SectionSummary = React.createClass({
 });
 
 var CalcApp = React.createClass({
-        mixins: [Reflux.listenTo(todoListStore, 'doThing')],
-        doThing: function(){
-            alert('test2');
-        },
         getInitialState: function(){
             return{
                       cat1: this.props.cat1
                   };
          },
-        // onStatusChange: function() {
-        //     alert('test2');
-        // },
-        // componentDidMount: function() {
-        // this.unsubscribe = statusStore.listen(this.onStatusChange);
-        // },
-        // componentWillUnmount: function() {
-        // this.unsubscribe();
-        // },
+        onStatusChange: function() {
+            alert('test2');
+        },
+        componentDidMount: function() {
+        this.unsubscribe = todoListStore.listen(this.onStatusChange);
+        },
+        componentWillUnmount: function() {
+        this.unsubscribe();
+        },
         handleSubmit: function() {
         // console.log(this.props.cat1);
         // console.log(this.props.cat1.length+1);
@@ -99,7 +95,6 @@ var CalcApp = React.createClass({
         this.setState({
         cat1:c
       });
-        // console.log(this.state.cat1);
     },
   render: function() {
     return (
@@ -122,4 +117,4 @@ React.render(<CalcApp cat1={catOne}/>, mountNode);
 
 
 
-})(window.React, window.ReactRouter, window.Reflux, window.TodoActions, window.todoListStore, window);
+})(window.React, window.ReactRouter, window.Reflux, window.Actions, window.todoListStore, window);

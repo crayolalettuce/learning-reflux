@@ -5,7 +5,7 @@
     // The store is listening to all actions, and the components in turn are listening to the store.
     // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
-    global.TodoActions = Reflux.createActions([
+    global.Actions = Reflux.createActions([
         "costChange"  // called by individual cost item input    
     ]);
 
