@@ -6,12 +6,7 @@
     // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
     global.TodoActions = Reflux.createActions([
-        "toggleItem",     // called by button in TodoItem
-        "toggleAllItems", // called by button in TodoMain (even though you'd think TodoHeader)
-        "addItem",        // called by hitting enter in field in TodoHeader
-        "removeItem",     // called by button in TodoItem
-        "clearCompleted", // called by button in TodoFooter
-        "editItem"        // called by finishing edit in TodoItem
+        "costChange"  // called by individual cost item input    
     ]);
 
 })(window.Reflux, window);
