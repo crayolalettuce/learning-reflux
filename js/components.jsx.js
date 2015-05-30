@@ -74,10 +74,18 @@ var SectionSummary = React.createClass({
 var CalcApp = React.createClass({
         getInitialState: function(){
             return{
-                      cat1: this.props.cat1
-                  };
+                cat1: this.props.dogOne
+            }
          },
         onStatusChange: function() {
+            this.setState({
+                cat1: [
+    {name  : 'one', value : 10, key : 1},
+    {name  : 'two', value : 20, key : 2},
+    {name  : 'three', value : 30, key : 3},
+    {name  : 'four', value : 40, key : 4}
+      ]
+            });
             alert('test2');
         },
         componentDidMount: function() {
@@ -100,10 +108,10 @@ var CalcApp = React.createClass({
     return (
       <div>
           <h3>title</h3>
-          <CalcTable  cat1={this.props.cat1} somethingHandler={this.somethingHandler}/>
+          <CalcTable  cat1={this.state.cat1} somethingHandler={this.somethingHandler}/>
          <div className="stuff"><p>stuff</p></div>
          <div className="stuff">
-            <AddRowButton cat1={this.props.cat1} onSubmit={this.handleSubmit}/>
+            <AddRowButton cat1={this.state.cat1} onSubmit={this.handleSubmit}/>
           </div>
             <SectionSummary />
       </div>
@@ -111,7 +119,7 @@ var CalcApp = React.createClass({
   }
 });
 
-React.render(<CalcApp cat1={catOne}/>, mountNode);
+React.render(<CalcApp dogOne={catOne}  />, mountNode);
 
 
 

@@ -10,7 +10,7 @@
         },
         output: function(){
             this.trigger('stuff');
-            alert('donkyshow');
+            alert('test1');
         }
 
           });
