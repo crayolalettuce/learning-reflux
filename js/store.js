@@ -6,11 +6,18 @@
     global.todoListStore = Reflux.createStore({
 
         init: function(){
+
+            // listens to handleChange in CalcRow component
             this.listenTo(Actions.costChange, this.output);
+
         },
-        output: function(){
-            this.trigger('stuff');
-            alert('test1');
+
+        // listens for mod and iVal
+        output: function(mod, iVal){
+
+            // passes mod and iVal to CalcTable 
+            this.trigger(mod, iVal);
+
         }
 
           });

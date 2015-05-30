@@ -5,10 +5,10 @@
         mountNode = document.getElementById("todoapp");
 
 var catOne =  [
-    {name  : 'one', value : 1, key : 1},
-    {name  : 'two', value : 2, key : 2},
-    {name  : 'three', value : 3, key : 3},
-    {name  : 'four', value : 4, key : 4}
+    {name  : 'one', value : 1, key : 0},
+    {name  : 'two', value : 2, key : 1},
+    {name  : 'three', value : 3, key : 2},
+    {name  : 'four', value : 4, key : 3}
       ]; 
 
 
@@ -28,15 +28,22 @@ var CalcTable = React.createClass({
 });
 
 var CalcRow = React.createClass({
-  handleChange: function(){
+  handleChange: function(evt){
         // links to action in store.js
-        Actions.costChange();
+
+        //modified input
+        var mod = evt; 
+        // value of input
+        var iVal = event.target.value;
+
+        // sends mod and iVal to store
+        Actions.costChange(mod, iVal);
   },
   render: function() {
         return(
         <tr>
         <td>{this.props.item.name}</td>
-        <td><input value={this.props.item.value} onChange={this.handleChange}/></td>
+        <td><input value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
         <td>h</td>
         </tr>
         )
@@ -45,13 +52,15 @@ var CalcRow = React.createClass({
 
 var AddRowButton = React.createClass({ 
      handleSubmit: function(e) {
+        var newItem = this.refs.addNewItem.getDOMNode().value;
       e.preventDefault();
-      this.props.onSubmit(this);
+      // sends event to  handleSubmit function in CalcApp component
+      this.props.onSubmit(newItem);
   },
   render: function(){
     return(
-        <form onSubmit={this.handleSubmit}>
-          <input />
+        <form onSubmit={this.handleSubmit} >
+          <input placeholder="add new expense" ref="addNewItem"/>
           <button>Add</button>
         </form>
       )
@@ -77,16 +86,15 @@ var CalcApp = React.createClass({
                 cat1: this.props.dogOne
             }
          },
-        onStatusChange: function() {
+        onStatusChange: function(mod, iVal) {
+            
+            var v = this.state.cat1; 
+
+            v[mod].value = iVal;
+
             this.setState({
-                cat1: [
-    {name  : 'one', value : 10, key : 1},
-    {name  : 'two', value : 20, key : 2},
-    {name  : 'three', value : 30, key : 3},
-    {name  : 'four', value : 40, key : 4}
-      ]
+                cat1: v
             });
-            alert('test2');
         },
         componentDidMount: function() {
         this.unsubscribe = todoListStore.listen(this.onStatusChange);
@@ -94,14 +102,14 @@ var CalcApp = React.createClass({
         componentWillUnmount: function() {
         this.unsubscribe();
         },
-        handleSubmit: function() {
-        // console.log(this.props.cat1);
-        // console.log(this.props.cat1.length+1);
-        var newKeyVal = this.props.cat1.length+1;
-        c = this.props.cat1; 
-        c = c.push({name : "four", value : 4, key : newKeyVal});
+        handleSubmit: function(newItem) {
+        console.log(newItem);
+        var newKeyVal = this.state.cat1.length;
+        c1 = this.state.cat1; 
+        c1.push({name : newItem, value : event.target.value, key : newKeyVal});
+        // console.log(c1);
         this.setState({
-        cat1:c
+        cat1:c1
       });
     },
   render: function() {
@@ -111,7 +119,7 @@ var CalcApp = React.createClass({
           <CalcTable  cat1={this.state.cat1} somethingHandler={this.somethingHandler}/>
          <div className="stuff"><p>stuff</p></div>
          <div className="stuff">
-            <AddRowButton cat1={this.state.cat1} onSubmit={this.handleSubmit}/>
+            <AddRowButton cat1={this.state.cat1} ref="addNewItem" onSubmit={this.handleSubmit} />
           </div>
             <SectionSummary />
       </div>
