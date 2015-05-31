@@ -11,6 +11,22 @@ var catOne =  [
     {name  : 'four', value : 4, key : 3}
       ]; 
 
+// helper function can be called in to sum obj.values 
+ var sumVals = function(sumThis){
+    // setting up variables to sum all expense inputs 
+    var i = 0; 
+    var sum = 0;
+    var s = sumThis; 
+    // summing expense inputs 
+    do {
+        var c = s[i].value;
+        if (isNaN(c)!== true) {
+        sum = sum + Number(c); 
+        }
+        ++i;
+    } while (i <= s.length-1);
+    return sum;
+ }
 
 var CalcTable = React.createClass({
   render: function() {
@@ -39,12 +55,16 @@ var CalcRow = React.createClass({
         // sends mod and iVal to store
         Actions.costChange(mod, iVal);
   },
+  handleDelete: function(item){
+    alert(item);
+    Actions.deleteItem(item);
+  },
   render: function() {
         return(
         <tr>
         <td>{this.props.item.name}</td>
-        <td><input value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
-        <td>h</td>
+        <td><input type="number" value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
+        <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>d</button></td>
         </tr>
         )
     }
@@ -69,12 +89,12 @@ var AddRowButton = React.createClass({
 
 var SectionSummary = React.createClass({
   render: function(){
+var currentSum = sumVals(this.props.cat1)
   return(
     <div className="summary">
         <div className="table-summary">
-        stuff
+        <p>{currentSum}</p>
         </div>
-
     </div>
     );
   }
@@ -85,6 +105,9 @@ var CalcApp = React.createClass({
             return{
                 cat1: this.props.dogOne
             }
+
+            console.log('stuff');
+
          },
         onStatusChange: function(mod, iVal) {
             
@@ -121,7 +144,7 @@ var CalcApp = React.createClass({
          <div className="stuff">
             <AddRowButton cat1={this.state.cat1} ref="addNewItem" onSubmit={this.handleSubmit} />
           </div>
-            <SectionSummary />
+            <SectionSummary cat1={this.state.cat1} />
       </div>
     );
   }

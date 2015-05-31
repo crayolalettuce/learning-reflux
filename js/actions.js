@@ -6,7 +6,8 @@
     // Thus the flow is: User interaction -> component calls action -> store reacts and triggers -> components update
 
     global.Actions = Reflux.createActions([
-        "costChange"  // called by individual cost item input    
+        "costChange", // called by individual cost item input    
+        "deleteItem" // called by delete button on cost item input
     ]);
 
 })(window.Reflux, window);
