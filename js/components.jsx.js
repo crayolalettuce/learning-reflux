@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-(function(React, ReactRouter, Reflux, Actions, todoListStore, global) {
+(function(React, ReactRouter, Reflux, Actions, creatorStore, global) {
 
         mountNode = document.getElementById("todoapp");
 
@@ -38,7 +38,7 @@ var CalcTable = React.createClass({
         );
     });
     return(
-      <table>{rows}</table>
+      <table><tbody>{rows}</tbody></table>
     )
   }
 });
@@ -56,7 +56,7 @@ var CalcRow = React.createClass({
         Actions.costChange(mod, iVal);
   },
   handleDelete: function(item){
-    alert(item);
+    // alert(item);
     Actions.deleteItem(item);
   },
   render: function() {
@@ -64,7 +64,8 @@ var CalcRow = React.createClass({
         <tr>
         <td>{this.props.item.name}</td>
         <td><input type="number" value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
-        <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>d</button></td>
+        <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>delete</button></td>
+        <td>{this.props.item.key}</td>
         </tr>
         )
     }
@@ -119,18 +120,38 @@ var CalcApp = React.createClass({
                 cat1: v
             });
         },
+        onRowDelete: function(item){
+
+            var BBB = this.state.cat1; 
+
+            BBB.splice(item, 1);
+
+            console.log(BBB);
+
+            var arL = BBB.length; 
+
+            console.log(arL);
+
+            this.setState({
+                cat1:BBB
+            });
+
+            console.log(this.state.cat1);
+
+        },
         componentDidMount: function() {
-        this.unsubscribe = todoListStore.listen(this.onStatusChange);
+        this.unsubscribe = creatorStore.listen(this.onStatusChange);
+        this.blahblah = deleterStore.listen(this.onRowDelete);
         },
         componentWillUnmount: function() {
         this.unsubscribe();
+        this.blahblah();
         },
         handleSubmit: function(newItem) {
         console.log(newItem);
         var newKeyVal = this.state.cat1.length;
         c1 = this.state.cat1; 
         c1.push({name : newItem, value : event.target.value, key : newKeyVal});
-        // console.log(c1);
         this.setState({
         cat1:c1
       });
@@ -156,4 +177,4 @@ React.render(<CalcApp dogOne={catOne}  />, mountNode);
 
 
 
-})(window.React, window.ReactRouter, window.Reflux, window.Actions, window.todoListStore, window);
+})(window.React, window.ReactRouter, window.Reflux, window.Actions, window.creatorStore, window);

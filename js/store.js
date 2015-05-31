@@ -1,26 +1,27 @@
 (function(Reflux, Actions, global) {
     'use strict';
 
-
-
-    global.todoListStore = Reflux.createStore({
+    global.creatorStore = Reflux.createStore({
         init: function(){
-            
             // listens to handleChange in CalcRow component
             this.listenTo(Actions.costChange, this.output);
-
-            // listens to handleDelete on CalcRow component 
-            this.listenTo(Actions.deleteItem, this.onDeleteItem);
         },
         // listens for mod and iVal
         output: function(mod, iVal){
             // passes mod and iVal to CalcTable 
             this.trigger(mod, iVal);
+        }
+        });
+
+    global.deleterStore = Reflux.createStore({
+        init: function(){
+            // listens to handleDelete on CalcRow component 
+            this.listenTo(Actions.deleteItem, this.onDeleteItem);
         },
         onDeleteItem: function (item){
             this.trigger(item);
         }
-        });
+    });
 
 
     // global.todoListStore = Reflux.createStore({
