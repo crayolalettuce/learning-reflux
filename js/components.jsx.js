@@ -67,9 +67,21 @@ var CalcRow = React.createClass({
         return(
         <tr>
             <td>{this.props.item.name}</td>
-            <td><input type="number" value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
-            <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>delete</button></td>
-            <td>{this.props.item.key}</td>
+            <td><input 
+                        type="number"
+                        placeholder="insert a number"
+                        value={this.props.item.value}
+                        onChange={this.handleChange.bind(this, this.props.item.key)}
+                      />
+            </td>
+            <td>
+                <button 
+                    onClick={this.handleDelete.bind(this, this.props.item.key)}
+                    >delete</button>
+            </td>
+            <td>
+                {this.props.item.key}
+            </td>
         </tr>
         )
     }
@@ -128,40 +140,20 @@ var CalcApp = React.createClass({
 
             var BBB = this.state.cat1; 
 
+            // removing the clicked row 
             BBB.splice(item, 1);
 
-            console.log(BBB);
-
             var arL = BBB.length; 
-
-            console.log(arL);
-
-                // var i = 0; 
-                // // summing expense inputs 
-                // do {
-                //     var c = s[i].value;
-                //     if (isNaN(c)!== true) {
-                //     sum = sum + Number(c); 
-                //     }
-                //     ++i;
-                // } while (i <= s.length-1);
-                // return sum;
-
+            var i = 0; 
+             // re-sets key values 
+            do {
+                    BBB[i].key = i; 
+                    ++i;
+            } while (i <= arL-1);
 
             this.setState({
                 cat1:BBB
             });
-
-            // 1)   
-            // 2) 
-            // 3)
-            // 4)
-            // 5) 
-
-            // need to make function that re-sets the key property in my function whenever a row is deleted 
-
-            console.log(this.state.cat1);
-
         },
         componentDidMount: function() {
         this.unsubscribe = creatorStore.listen(this.onStatusChange);
@@ -190,6 +182,7 @@ var CalcApp = React.createClass({
             <AddRowButton cat1={this.state.cat1} ref="addNewItem" onSubmit={this.handleSubmit} />
           </div>
             <SectionSummary cat1={this.state.cat1} />
+
       </div>
     );
   }
