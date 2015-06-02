@@ -20,9 +20,9 @@ var catOne =  [
     // summing expense inputs 
     do {
         var c = s[i].value;
-        if (isNaN(c)!== true) {
-        sum = sum + Number(c); 
-        }
+            if (isNaN(c)!== true) {
+                sum = sum + Number(c); 
+            }
         ++i;
     } while (i <= s.length-1);
     return sum;
@@ -33,12 +33,16 @@ var CalcTable = React.createClass({
     var rows = [];
     // var myVar = this.props.cat1;     
     this.props.cat1.forEach(function(item){
-      rows.push(
-        <CalcRow item={item} key={item.key}/>
+        rows.push(
+            <CalcRow item={item} key={item.key}/>
         );
     });
     return(
-      <table><tbody>{rows}</tbody></table>
+      <table>
+        <tbody>
+            {rows}
+        </tbody>
+    </table>
     )
   }
 });
@@ -62,10 +66,10 @@ var CalcRow = React.createClass({
   render: function() {
         return(
         <tr>
-        <td>{this.props.item.name}</td>
-        <td><input type="number" value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
-        <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>delete</button></td>
-        <td>{this.props.item.key}</td>
+            <td>{this.props.item.name}</td>
+            <td><input type="number" value={this.props.item.value} onChange={this.handleChange.bind(this, this.props.item.key)}/></td>
+            <td><button onClick={this.handleDelete.bind(this, this.props.item.key)}>delete</button></td>
+            <td>{this.props.item.key}</td>
         </tr>
         )
     }
@@ -132,9 +136,29 @@ var CalcApp = React.createClass({
 
             console.log(arL);
 
+                // var i = 0; 
+                // // summing expense inputs 
+                // do {
+                //     var c = s[i].value;
+                //     if (isNaN(c)!== true) {
+                //     sum = sum + Number(c); 
+                //     }
+                //     ++i;
+                // } while (i <= s.length-1);
+                // return sum;
+
+
             this.setState({
                 cat1:BBB
             });
+
+            // 1)   
+            // 2) 
+            // 3)
+            // 4)
+            // 5) 
+
+            // need to make function that re-sets the key property in my function whenever a row is deleted 
 
             console.log(this.state.cat1);
 
